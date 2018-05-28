@@ -1,0 +1,12 @@
+es_host: testsjc20-es01.revsw.net
+es_port: 9200
+name: 55b6ff6a7957012304a49d04_portal-qa-domain.revsw.net_1527524289827
+type: any
+index: logstash-*
+filter:
+- term:
+    domain: portal-qa-domain.revsw.net
+alert: post
+http_post_url: "localhost:7000/v1/alerts"
+http_post_payload:
+  config_id: 55b6ff6a7957012304a49d04
