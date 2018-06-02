@@ -19,7 +19,9 @@
     "joi": "^13.3.0",
     "joi-objectid": "^2.0.0",
     "moment": "^2.22.1",
-    "mongoose": "^4.1.0"
+    "mongoose": "^4.1.0",
+    "sendgrid": "^5.2.3",
+    "supertest": "^3.1.0"
   },
   "devDependencies": {
     "gulp": "~3.9.1",

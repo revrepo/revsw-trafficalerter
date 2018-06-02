@@ -37,7 +37,12 @@ const Rules = [
                     target_type: Joi.string().allow(['domain', 'app']).required(),
                     target: Joi.string().required(),
                     rule_type: Joi.string().allow(['rps_spike', 'rps_level']).required(),
-                    rule_config: Joi.object().required()
+                    rule_config: Joi.object().required(),
+                    created_at: Joi.date(),
+                    notifications_list_id: Joi.objectId().required(),
+                    created_by: Joi.string(),
+                    updated_by: Joi.string(),
+                    updated_at: Joi.date()
                 }
             }
         }

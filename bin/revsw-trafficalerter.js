@@ -19,15 +19,21 @@
 'use strict';
 
 const hapi = require('hapi');
+const fs = require('fs');
 const config = require('config');
 const boom = require('boom');
 const mongoConn = require('./../lib/mongoConn');
+const APImongoConn = require('./../lib/mongoAPIConn');
 
 const server = new hapi.Server();
 
 server.connection({
     host: config.service.host,
     port: config.service.port,
+    tls: {
+        key: fs.readFileSync(config.service.key_path),
+        cert: fs.readFileSync(config.service.cert_path)
+    },
     routes: { cors: true },
     router: {
         isCaseSensitive: false,
