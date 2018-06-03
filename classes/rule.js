@@ -37,8 +37,11 @@ class Rule {
             if (this.rule_type !== 'spike') {
                 return reject('Rule type is wrong');
             }
+
+
+
             const rulesDir = config.rules_dir;
-            const ruleTemplate = config.rule_template;
+            const ruleTemplate = config.rule_templates.spike;
             let ruleFile = ruleTemplate.join('\n');
             ruleFile = ruleFile.replace(/{{ACCOUNTID}}/g, this.account_id);
             ruleFile = ruleFile.replace(/{{DOMAINID}}/g, this.target);
@@ -47,8 +50,9 @@ class Rule {
             ruleFile = ruleFile.replace(/{{ESPORT}}/g, config.ElasticSearch.ESPort);
             ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, Date.now());
             ruleFile = ruleFile.replace(/{{TYPE}}/g, this.rule_type);
-            ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.events);
-            ruleFile = ruleFile.replace(/{{TIMEFRAME_HOURS}}/g, this.rule_config.timeframe_hours);
+            ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.spike_amount);
+            ruleFile = ruleFile.replace(/{{TIMEFRAME}}/g, this.rule_config.timeframe);
+            ruleFile = ruleFile.replace(/{{TIMEFRAME_TYPE}}/g, this.rule_config.timeframe_type);
             ruleFile = ruleFile.replace(/{{CONFIGID}}/g, this.config_id);
 
 
