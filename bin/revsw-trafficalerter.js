@@ -24,9 +24,10 @@ const config = require('config');
 const boom = require('boom');
 const mongoConn = require('./../lib/mongoConn');
 const APImongoConn = require('./../lib/mongoAPIConn');
-
+const rulesPoller = require('./../lib/rulesPoller');
 const server = new hapi.Server();
 
+// HTTPS connection for comunication with outside world
 server.connection({
     host: config.service.host,
     port: config.service.port,
@@ -34,6 +35,17 @@ server.connection({
         key: fs.readFileSync(config.service.key_path),
         cert: fs.readFileSync(config.service.cert_path)
     },
+    routes: { cors: true },
+    router: {
+        isCaseSensitive: false,
+        stripTrailingSlash: false
+    }
+});
+
+// HTTP connection for ElastAlert post alerts
+server.connection({
+    host: config.service.host,
+    port: config.service.http_port,
     routes: { cors: true },
     router: {
         isCaseSensitive: false,
@@ -76,6 +88,13 @@ server.register({
     }
 });
 
+server.ext('onRequest', (request, reply) => {
+    // for debugging
+    return reply.continue();
+});
+
 server.start();
 
 console.log('HAPI Server started at ' + server.info.uri);
+
+rulesPoller.initPolling();
