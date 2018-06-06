@@ -24,7 +24,7 @@ const APIMongo = require('./../lib/mongoAPIConn');
 let TrafficAlertConfigSchema = new mongoose.Schema({
     account_id: { type: mongoose.SchemaTypes.ObjectId },
     target_type: { type: String },
-    target_id: { type: mongoose.SchemaTypes.ObjectId },
+    target: { type: String },
     rule_type: { type: String },
     rule_config: { type: Object },
     status: { type: String },

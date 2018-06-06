@@ -23,7 +23,7 @@ const fs = require('fs');
 
 class Rule {
     constructor(payload) {
-        this.rule_type = payload.rule_type;
+        this.rule_type = payload.rule_type.toLowerCase();
         this.name = payload.name;
         this.account_id = payload.account_id;
         this.target_type = payload.target_type;
@@ -50,6 +50,7 @@ class Rule {
             ruleFile = ruleFile.replace(/{{ESPORT}}/g, config.ElasticSearch.ESPort);
             ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, Date.now());
             ruleFile = ruleFile.replace(/{{TYPE}}/g, this.rule_type);
+            ruleFile = ruleFile.replace(/{{DIRECTION}}/g, this.rule_config.spike_direction.value);
             ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.spike_amount);
             ruleFile = ruleFile.replace(/{{TIMEFRAME}}/g, this.rule_config.timeframe);
             ruleFile = ruleFile.replace(/{{TIMEFRAME_TYPE}}/g, this.rule_config.timeframe_type);
@@ -57,8 +58,8 @@ class Rule {
 
 
             fs.writeFile('./' + rulesDir +
-                this.account_id +
-                '_' + this.target +
+                this.config_id +
+                '_' + this.account_id +
                 '_' + Date.now() + '.yaml', ruleFile, function (err) {
                     if (err) {
                         return reject(err);

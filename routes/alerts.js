@@ -28,12 +28,7 @@ const Alerts = [
         config: {
             auth: false,
             handler: alerts.createAlert,
-            description: 'Create a new traffic alert',
-            validate: {
-                payload: {
-                    config_id: Joi.objectId().required()
-                }
-            }
+            description: 'Create a new traffic alert'
         }
     }
 ];

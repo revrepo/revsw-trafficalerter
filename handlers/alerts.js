@@ -60,7 +60,11 @@ const Alerts = {
                 // Tell the API to send the notifications...
 
                 let notificationContent = `
-                    New Alert!
+                    A new traffic alert was triggered for ${conf.target_type}: 
+                    <strong>${conf.target}</strong><br />
+
+                    <strong><u>Traffic Alert Details:</u></strong>
+                    DATA HERE
                 `;
 
                 let notificationTitle = conf._doc.name + ' - New Traffic Alert!';
