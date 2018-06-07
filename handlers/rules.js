@@ -22,6 +22,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const boom = require('boom');
 const Rule = require('./../classes/rule');
+const fs = require('fs');
 
 const Rules = {
     createRule: function (request, reply) {
@@ -34,6 +35,28 @@ const Rules = {
                 return reply(boom.badRequest(err));
             });
 
+    },
+
+    getRuleStatus: function (request, reply) {
+        let ruleId = request.params.rule_id;
+
+        fs.readdir('./alertRules', (err, files) => {
+            files.forEach(file => {
+                if (file.indexOf(ruleId) !== -1) {
+                    return reply('Healthy');
+                } else if (files.indexOf(file) === files.length - 1) {
+                    return reply('Inactive');
+                }
+            });
+
+            if (err) {
+                return reply(boom.badRequest(err));
+            }
+
+            if (!files) {
+                return reply('There are no rule files in the system');
+            }
+        });
     }
 };
 

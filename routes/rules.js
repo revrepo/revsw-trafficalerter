@@ -46,6 +46,20 @@ const Rules = [
                 }
             }
         }
+    },
+    {
+        method: 'GET',
+        path: '/v1/rules/{rule_id}/status',
+        config: {
+            auth: false,
+            handler: rules.getRuleStatus,
+            description: 'Get rule status',
+            validate: {
+                params: {
+                    rule_id: Joi.objectId().required(),
+                }
+            }
+        }
     }
 ];
 

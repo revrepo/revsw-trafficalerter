@@ -1,4 +1,5 @@
 {
+    "delete_rules_without_files": true,
     "mongodb_url": "mongodb://TESTSJC20-CMDB01.REVSW.NET:27017/trafficalerts?replicaSet=CMDB-rs0",
     "api_mongodb_url": "mongodb://TESTSJC20-CMDB01.REVSW.NET:27017/revportal?replicaSet=CMDB-rs0",
     "ElasticSearch": {
@@ -13,6 +14,7 @@
     "service": {
         "host": "127.0.0.1",
         "port": 7443,
+        "http_port": 7000,
         "key_path": "./config/dev_ssl_certs/server.key",
         "cert_path": "./config/dev_ssl_certs/server.crt"
     },
@@ -25,16 +27,16 @@
             "name: {{ACCOUNTID}}_{{DOMAINID}}_{{TIMESTAMP}}",
             "type: {{TYPE}}",
             "index: logstash-*",
-            "num_events: {{EVENTS}}",
+            "spike_height: {{EVENTS}}",
+            "spike_type: {{DIRECTION}}",
             "timeframe:",
             "    {{TIMEFRAME_TYPE}}: {{TIMEFRAME}}",
             "filter:",
             "- term:",
             "    domain: {{DOMAIN_NAME}}",
-            "alert:",
-            "  - post",
-            "http_post_url: 127.0.0.1:7000/v1/alerts",
-            "http_post_payload:",
+            "alert: post",
+            "http_post_url: http://localhost:7000/v1/alerts",
+            "http_post_static_payload:",
             "    config_id: {{CONFIGID}}"
         ]
     },
