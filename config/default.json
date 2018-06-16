@@ -1,5 +1,5 @@
 {
-    "delete_rules_without_files": true,
+    "delete_rules_without_files": false,
     "mongodb_url": "mongodb://TESTSJC20-CMDB01.REVSW.NET:27017/trafficalerts?replicaSet=CMDB-rs0",
     "api_mongodb_url": "mongodb://TESTSJC20-CMDB01.REVSW.NET:27017/revportal?replicaSet=CMDB-rs0",
     "ElasticSearch": {
@@ -34,6 +34,24 @@
             "filter:",
             "- term:",
             "    domain: {{DOMAIN_NAME}}",
+            "alert: post",
+            "http_post_url: http://localhost:7000/v1/alerts",
+            "http_post_static_payload:",
+            "    config_id: {{CONFIGID}}"
+        ],
+        "statusCode_frequency": [
+            "es_host: {{ESHOST}}",
+            "es_port: {{ESPORT}}",
+            "name: {{ACCOUNTID}}_{{DOMAINID}}_{{TIMESTAMP}}",
+            "type: {{TYPE}}",
+            "index: logstash-*",
+            "num_events: {{EVENTS}}",
+            "timeframe:",
+            "    {{TIMEFRAME_TYPE}}: {{TIMEFRAME}}",
+            "filter:",
+            "- term:",
+            "    domain: {{DOMAIN_NAME}}",
+            "    response: {{STATUS_CODE}}",
             "alert: post",
             "http_post_url: http://localhost:7000/v1/alerts",
             "http_post_static_payload:",

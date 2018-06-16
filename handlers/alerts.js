@@ -27,6 +27,8 @@ const Mailer = require('./../classes/mailer');
 const mail = new Mailer();
 const RevswAPI = require('./../classes/RevswAPI');
 const API = new RevswAPI();
+const moment = require('moment');
+const Utils = require('./../lib/utils');
 
 const Alerts = {
     createAlert: function (request, reply) {
@@ -45,42 +47,72 @@ const Alerts = {
                 return reply(boom.badRequest('Traffic Alert Configuration Not Found'));
             }
 
-            let newAlert = {
-                config_id: request.payload.config_id,
-                created_at: Date.now(),
-                seen_at: null,
-                seen_by: null
-            }
+            let confTimeframeSec = Utils
+                .timeframeToSeconds(conf.rule_config.timeframe, conf.rule_config.timeframe_type);
 
-            TrafficAlert.create([newAlert], function (err, res) {
-                if (err) {
-                    return reply(boom.badImplementation(err));
-                }
+            if (conf.status !== 'down') {
 
-                // Tell the API to send the notifications...
+                conf.status = 'down';
+                conf.last_dispatch = Date.now();
+                conf.last_hit = Date.now();
 
-                let notificationContent = `
-                    A new traffic alert was triggered for ${conf.target_type}: 
-                    <strong>${conf.target}</strong><br />
+                let confCopy = JSON.parse(JSON.stringify(conf));
+                delete confCopy._id;
 
-                    <strong><u>Traffic Alert Details:</u></strong>
-                    DATA HERE
-                `;
+                TrafficAlertConfig.update({ _id: request.payload.config_id }, confCopy, function (error) {
+                    if (error) {
+                        return reply(boom.badRequest('Error updating Rule Config'));
+                    }
 
-                let notificationTitle = conf._doc.name + ' - New Traffic Alert!';
+                    let newAlert = {
+                        config_id: request.payload.config_id,
+                        created_at: Date.now(),
+                        seen_at: null,
+                        seen_by: null
+                    }
 
-                API.post('/v1/notification_lists/' +
-                    conf._doc.notifications_list_id +
-                    '/send_notification', {
-                        notification_content: notificationContent,
-                        notification_title: notificationTitle
-                    }).then(function (res) {
-                        return reply(res.body);
-                    })
-                    .catch(function (err) {
-                        return reply(boom.badRequest(err));
+                    TrafficAlert.create([newAlert], function (err, res) {
+                        if (err) {
+                            return reply(boom.badImplementation(err));
+                        }
+
+                        // Tell the API to send the notifications...
+
+                        let notificationContent = `
+                            A new traffic alert was triggered for ${conf.target_type}: 
+                            <strong>${conf.target}</strong><br />
+        
+                            <strong><u>Traffic Alert Details:</u></strong>
+                            DATA HERE
+                        `;
+
+                        let notificationTitle = conf._doc.name + ' - New Traffic Alert!';
+
+                        API.post('/v1/notification_lists/' +
+                            conf._doc.notifications_list_id +
+                            '/send_notification', {
+                                notification_content: notificationContent,
+                                notification_title: notificationTitle
+                            }).then(function (res) {
+                                return reply(res.body);
+                            })
+                            .catch(function (err) {
+                                return reply(boom.badRequest(err));
+                            });
                     });
-            });
+                });
+            } else {
+                conf.last_hit = Date.now();
+                let confCopy = JSON.parse(JSON.stringify(conf));
+                delete confCopy._id;
+                TrafficAlertConfig.update({ _id: request.payload.config_id }, confCopy, function (error) {
+                    if (error) {
+                        return reply(boom.badRequest('Error updating Rule Config'));
+                    }
+
+                    return reply('OK');
+                });
+            }
         });
     }
 };
