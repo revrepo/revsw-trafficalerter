@@ -28,13 +28,26 @@ const Rules = {
     createRule: function (request, reply) {
         let newRule = new Rule(request.payload);
 
-        newRule.generateSpikeRule().then(function () {
-            return reply(newRule);
-        })
-            .catch(function (err) {
-                return reply(boom.badRequest(err));
-            });
-
+        switch (newRule.rule_type) {
+            case 'spike':
+                newRule.generateSpikeRule().then(function () {
+                    return reply(newRule);
+                })
+                    .catch(function (err) {
+                        return reply(boom.badRequest(err));
+                    });
+                break;
+            case 'statuscode_frequency':
+                newRule.generateStatusCodeFrequency().then(function () {
+                    return reply(newRule);
+                })
+                    .catch(function (err) {
+                        return reply(boom.badRequest(err));
+                    });
+                break;
+            default:
+                return reply(boom.badRequest('Rule type is undefined'));
+        }
     },
 
     getRuleStatus: function (request, reply) {
