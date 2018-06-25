@@ -78,12 +78,17 @@ const Alerts = {
 
                         // Tell the API to send the notifications...
 
-                        let notificationContent = `
+                        if (!conf.silenced) {
+                            let notificationContent = `
                             A new traffic alert was triggered for ${conf.target_type}: 
                             <strong>${conf.target}</strong><br />
         
                             <strong><u>Traffic Alert Details:</u></strong>
-                            DATA HERE
+                            <ul>
+                                <li>Alert type: ${Utils.ruleTypeToString(conf.rule_type)}</li>
+                                <li>Alert created at: ${Date.now()}</li>
+                                <li>Number of responses triggering the alert: ${request.payload.num_hits}</li>
+                            </ul>
                         `;
 
                         let notificationTitle = conf._doc.name + ' - New Traffic Alert!';
@@ -99,6 +104,9 @@ const Alerts = {
                             .catch(function (err) {
                                 return reply(boom.badRequest(err));
                             });
+                        } else {
+                            return reply('Success');
+                        }
                     });
                 });
             } else {
