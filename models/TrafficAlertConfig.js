@@ -36,7 +36,8 @@ let TrafficAlertConfigSchema = new mongoose.Schema({
     last_hit: { type: Date, default: null },
     last_run: { type: Date, default: null },
     last_dispatch: { type: Date, default: null },
-    notifications_list_id: { type: mongoose.SchemaTypes.ObjectId }
+    notifications_list_id: { type: mongoose.SchemaTypes.ObjectId },
+    silenced: { type: Boolean, default: false }
 });
 
 const TrafficAlertConfig = APIMongo.model('TrafficAlertConfig', TrafficAlertConfigSchema, 'TrafficAlertConfig');
