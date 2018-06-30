@@ -60,6 +60,20 @@ const Rules = [
                 }
             }
         }
+    },
+    {
+        method: 'DELETE',
+        path: '/v1/rules/{rule_id}',
+        config: {
+            auth: false,
+            handler: rules.deleteRuleFile,
+            description: 'Delete rule YAML file',
+            validate: {
+                params: {
+                    rule_id: Joi.objectId().required(),
+                }
+            }
+        }
     }
 ];
 

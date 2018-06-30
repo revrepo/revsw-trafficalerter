@@ -70,6 +70,32 @@ const Rules = {
                 return reply('There are no rule files in the system');
             }
         });
+    },
+
+    deleteRuleFile: function (request, reply) {
+        let ruleId = request.params.rule_id;
+
+        fs.readdir('./alertRules', (err, files) => {
+            files.forEach(file => {
+                if (file.indexOf(ruleId) !== -1) {
+                    fs.unlink('./alertRules/' + file, function (error) {
+                        if (error) {
+                            return reply(boom.badRequest(error));
+                        } else {
+                            return reply('File deleted successfully');
+                        }
+                    });
+                }
+            });
+
+            if (err) {
+                return reply(boom.badRequest(err));
+            }
+
+            if (!files) {
+                return reply('There are no rule files in the system');
+            }
+        });
     }
 };
 
