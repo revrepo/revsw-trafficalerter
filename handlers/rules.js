@@ -86,6 +86,57 @@ const Rules = {
                         }
                     });
                 }
+
+                if (files.indexOf(file) === files.length - 1) {
+                    return reply(boom.badRequest('The rule file was not found in the system'));
+                }
+            });
+
+            if (err) {
+                return reply(boom.badRequest(err));
+            }
+
+            if (!files) {
+                return reply('There are no rule files in the system');
+            }
+        });
+    },
+
+    updateRule: function (request, reply) {
+        let ruleId = request.params.rule_id;
+        request.payload.config_id = ruleId;
+        fs.readdir('./alertRules', (err, files) => {
+            files.forEach(file => {
+                if (file.indexOf(ruleId) !== -1) {
+                    fs.unlink('./alertRules/' + file, function (error) {
+                        if (error) {
+                            return reply(boom.badRequest(error));
+                        } else {
+                            let newRule = new Rule(request.payload);
+
+                            switch (newRule.rule_type) {
+                                case 'spike':
+                                    newRule.generateSpikeRule().then(function () {
+                                        return reply(newRule);
+                                    })
+                                        .catch(function (err) {
+                                            return reply(boom.badRequest(err));
+                                        });
+                                    break;
+                                case 'statuscode_frequency':
+                                    newRule.generateStatusCodeFrequency().then(function () {
+                                        return reply(newRule);
+                                    })
+                                        .catch(function (err) {
+                                            return reply(boom.badRequest(err));
+                                        });
+                                    break;
+                                default:
+                                    return reply(boom.badRequest('Rule type is undefined'));
+                            }
+                        }
+                    });
+                }
             });
 
             if (err) {

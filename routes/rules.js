@@ -48,6 +48,33 @@ const Rules = [
         }
     },
     {
+        method: 'PUT',
+        path: '/v1/rules/{rule_id}',
+        config: {
+            auth: false,
+            handler: rules.updateRule,
+            description: 'Update a rule file for ElastAlert',
+            validate: {
+                payload: {
+                    name: Joi.string().min(2).max(100).required(),
+                    account_id: Joi.objectId().required(),
+                    target_type: Joi.string().allow(['domain', 'app']).required(),
+                    target: Joi.string().required(),
+                    rule_type: Joi.string().required(),
+                    rule_config: Joi.object().required(),
+                    created_at: Joi.date(),
+                    notifications_list_id: Joi.objectId().required(),
+                    created_by: Joi.string(),
+                    updated_by: Joi.string(),
+                    updated_at: Joi.date(),
+                    id: Joi.objectId(),
+                    silenced: Joi.boolean(),
+                    silence_until: Joi.date().allow(null)
+                }
+            }
+        }
+    },
+    {
         method: 'GET',
         path: '/v1/rules/{rule_id}/status',
         config: {
