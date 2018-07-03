@@ -1,0 +1,14 @@
+{
+    "API": {
+        "host": "TESTSJC20-API01.REVSW.NET",
+        "port": "8000",
+        "token": "9ff71a58943396c3491bd7f65303407bcb8c2068f66ee584fabc04c17bfce97d"
+    },
+    "service": {
+        "host": "0.0.0.0",
+        "port": 7443,
+        "http_port": 7000,
+        "key_path": "./config/dev_ssl_certs/server.key",
+        "cert_path": "./config/dev_ssl_certs/server.crt"
+    }
+}
