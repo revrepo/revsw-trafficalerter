@@ -45,8 +45,8 @@ case "$1" in
         ;;
         restart)
                 log_daemon_msg "Restarting all trafficalerter services..." || true
-                $0 sudo stop
-                $0 sudo start
+                $0 stop
+                $0 start
         ;;
         status)
                 forever list
