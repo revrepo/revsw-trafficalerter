@@ -89,6 +89,7 @@ cp -rf  $WORKSPACE/config/version.txt  $foldername/opt/$PackageName/config
 cp -rf  $WORKSPACE/package.json $foldername/opt/$PackageName/
 
 mkdir -p $foldername/opt/$PackageName/log
+mkdir -p $foldername/opt/$PackageName/alertRules
 
 sudo chown -R root:root $foldername
 
