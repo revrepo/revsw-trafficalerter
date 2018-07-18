@@ -7,7 +7,7 @@ const nodemon = require('nodemon');
 
 gulp.task('lint', function () {
     // all files in this project need to follow our standarts
-    return gulp.src(['./**/*.js', '!./node_modules/**/*.js'])
+    return gulp.src([ './**/*.js', '!./node_modules/**/*.js', '!./package_build_dir/**/*.js' ])
         .pipe(jshint())
         .pipe(jshint.reporter(stylish));
 });

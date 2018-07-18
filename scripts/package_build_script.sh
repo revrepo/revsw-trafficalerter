@@ -67,8 +67,10 @@ Description: Rev Traffic Alerter Service" >> $foldername/DEBIAN/control
 mkdir -p $foldername/etc/init.d  $foldername/etc/logrotate.d
 
 cp -rp $WORKSPACE/scripts/init.d_revsw-trafficalerter  $foldername/etc/init.d/revsw-trafficalerter
+chmod a+x $foldername/etc/init.d/revsw-trafficalerter
 
 cp -rp $WORKSPACE/scripts/logrotate_revsw-trafficalerter $foldername/etc/logrotate.d/revsw-trafficalerter
+
 
 mkdir -p $foldername/opt/$PackageName/config
 mkdir -p $foldername/opt/$PackageName/docs
