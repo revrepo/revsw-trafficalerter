@@ -1,0 +1,1 @@
+/home/victor/rev/revsw-trafficalerter/elastalert/elastalert/rule_from_kibana.py

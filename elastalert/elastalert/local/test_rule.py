@@ -1,0 +1,1 @@
+/home/victor/rev/revsw-trafficalerter/elastalert/elastalert/test_rule.py
