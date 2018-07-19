@@ -18,8 +18,6 @@
 
 'use strict';
 
-const mongoose = require('mongoose');
-const config = require('config');
 const boom = require('boom');
 const Rule = require('./../classes/rule');
 const fs = require('fs');

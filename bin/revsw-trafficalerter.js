@@ -21,9 +21,8 @@
 const hapi = require('hapi');
 const fs = require('fs');
 const config = require('config');
-const boom = require('boom');
-const mongoConn = require('./../lib/mongoConn');
-const APImongoConn = require('./../lib/mongoAPIConn');
+const Rule = require('./../classes/rule');
+const TrafficAlertConfig = require('./../models/TrafficAlertConfig');
 const rulesPoller = require('./../lib/rulesPoller');
 const server = new hapi.Server();
 
@@ -92,9 +91,34 @@ server.ext('onRequest', (request, reply) => {
     // for debugging
     return reply.continue();
 });
-
-server.start();
-
-console.log('HAPI Server started at ' + server.info.uri);
-
-rulesPoller.initPolling();
+// Action before start server
+function prepareStart(){
+  return Rule.removeAllFiles()
+    .then(function(){
+      console.log('Old files with rules was deleted');
+    })
+    .catch(function(err){
+      console.error(err);
+      throw err;
+    })
+    .then(function(){
+      return TrafficAlertConfig.find()
+        .then(function(allConfigs){
+          const promisesList = allConfigs.map((ruleConfig)=>{
+            return Rule.generateRule(ruleConfig).catch();  
+            });
+            return Promise.all(promisesList);
+        });
+    })
+    .catch(function(err){
+      console.log('Fail preparing for start, but we go on. ',err);
+      return Promise.resolve();
+    });
+}
+ 
+prepareStart()
+  .then(function(){
+    server.start();
+    rulesPoller.initPolling();
+    console.log('HAPI Server started at ' + server.info.uri);
+  });

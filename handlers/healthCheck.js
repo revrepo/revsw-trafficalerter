@@ -20,8 +20,6 @@
 
 'use strict';
 
-const mongoose = require('mongoose');
-const config = require('config');
 const boom = require('boom');
 const ESClient = require('./../classes/elasticSearch');
 
@@ -43,7 +41,7 @@ const HealthCheck = {
             }
         })
             .catch(function (err) {
-                return reply(boom.serverUnavailable('Something is wrong with ElasticSearch'));
+                return reply(boom.serverUnavailable('Something is wrong with ElasticSearch',err));
             });
     }
 };
