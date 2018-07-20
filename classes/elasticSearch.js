@@ -42,7 +42,7 @@ class ESClient {
             this.client.ping({
                 requestTimeout: 30000,
                 hello: 'elasticsearch'
-            }, function (error, res) {
+            }, function (error) {
                 if (error) {
                     return reject(error);
                 } else {
