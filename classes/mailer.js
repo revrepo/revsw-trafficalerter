@@ -42,20 +42,18 @@ class Mailer {
             var vendorProfiles = config.vendor_profiles;
             var systemVendor = vendorProfiles[config.default_system_vendor_profile];
 
+            let mailOptions = {
+              to: to,
+              from: from, 
+              html: body,
+              subject: subject,
+              fromName: systemVendor.support_name
+            };
+
             if (!from || from === '') {
                 mailOptions.from = systemVendor.support_email;
             }
-
-            let fromName = systemVendor.support_name;
-
-            let mailOptions = {
-                to: to,
-                from: from,
-                fromname: fromName,
-                html: body,
-                subject: subject
-            };
-
+            
             sendgrid.send(mailOptions, function (err, data) {
                 if (err) {
                     return reject(err);

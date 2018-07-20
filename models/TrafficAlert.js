@@ -18,7 +18,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const config = require('config');
 const mongooseConn = require('./../lib/mongoConn');
 
 let TrafficAlertSchema = new mongoose.Schema({

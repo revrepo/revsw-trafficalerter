@@ -18,7 +18,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const config = require('config');
 const APIMongo = require('./../lib/mongoAPIConn');
 
 let TrafficAlertConfigSchema = new mongoose.Schema({
@@ -41,6 +40,7 @@ let TrafficAlertConfigSchema = new mongoose.Schema({
     silence_until: { type: Date, default: null }
 });
 
-const TrafficAlertConfig = APIMongo.model('TrafficAlertConfig', TrafficAlertConfigSchema, 'TrafficAlertConfig');
+const TrafficAlertConfig = APIMongo.model('TrafficAlertConfig', TrafficAlertConfigSchema,
+ 'TrafficAlertConfig');
 
 module.exports = TrafficAlertConfig;
