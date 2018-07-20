@@ -37,7 +37,7 @@ class Mailer {
 
             if (!body || body === '') {
                 return reject('Body not specified');
-            }
+            } 
 
             var vendorProfiles = config.vendor_profiles;
             var systemVendor = vendorProfiles[config.default_system_vendor_profile];
@@ -53,7 +53,7 @@ class Mailer {
             if (!from || from === '') {
                 mailOptions.from = systemVendor.support_email;
             }
-            
+
             sendgrid.send(mailOptions, function (err, data) {
                 if (err) {
                     return reject(err);
@@ -65,7 +65,7 @@ class Mailer {
 
     sendBulkMail(mails) {
         const me = this;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             for (let i = 0; i < mails.length; i++) {
                 me.sendMail(mails[i].from, mails[i].to, mails[i].subject, mails[i].body);
                 if (i === mails.length - 1) {

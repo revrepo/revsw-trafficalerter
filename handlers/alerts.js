@@ -67,7 +67,7 @@ const Alerts = {
                         seen_by: null
                     };
 
-                    TrafficAlert.create([newAlert], function (err, res) {
+                    TrafficAlert.create([newAlert], function (err) {
                         if (err) {
                             return reply(boom.badImplementation(err));
                         }
