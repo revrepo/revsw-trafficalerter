@@ -19,6 +19,7 @@
 'use strict';
 
 const boom = require('boom');
+const moment = require('moment');
 const TrafficAlert = require('./../models/TrafficAlert');
 const TrafficAlertConfig = require('./../models/TrafficAlertConfig'); 
 const RevswAPI = require('./../classes/RevswAPI');
@@ -75,6 +76,7 @@ const Alerts = {
                         // Tell the API to send the notifications...
 
                         if (!conf.silenced) {
+                            const createdAt = moment.utc().format();
                             let numHits = request.payload.num_hits;
                             let notificationContent = `
                             A new traffic alert was triggered for ${conf.target_type}: 
@@ -83,7 +85,7 @@ const Alerts = {
                             <strong><u>Traffic Alert Details:</u></strong>
                             <ul>
                                 <li>Alert type: ${Utils.ruleTypeToString(conf.rule_type)}</li>
-                                <li>Alert created at: ${Date.now()}</li>
+                                <li>Alert created at: ${createdAt}</li>
                                 <li>Number of responses triggering the alert: ${numHits}</li>
                             </ul>
                         `;
