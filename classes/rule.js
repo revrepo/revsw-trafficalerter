@@ -83,7 +83,7 @@ class Rule {
         ruleFile = ruleFile.replace(/{{ESPORT}}/g, config.ElasticSearch.ESPort);
         ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, Date.now());
         ruleFile = ruleFile.replace(/{{TYPE}}/g, this.rule_type);
-        ruleFile = ruleFile.replace(/{{DIRECTION}}/g, this.rule_config.spike_direction.value);
+        ruleFile = ruleFile.replace(/{{DIRECTION}}/g, this.rule_config.spike_direction);
         ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.spike_amount);
         ruleFile = ruleFile.replace(/{{TIMEFRAME}}/g, this.rule_config.timeframe);
         ruleFile = ruleFile.replace(/{{TIMEFRAME_TYPE}}/g, this.rule_config.timeframe_type);
