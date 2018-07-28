@@ -24,7 +24,7 @@
         "spike": [
             "es_host: {{ESHOST}}",
             "es_port: {{ESPORT}}",
-            "name: {{ACCOUNTID}}_{{DOMAINID}}_{{TIMESTAMP}}",
+            "name: {{CONFIGID}}_{{ACCOUNTID}}_{{DOMAINID}}",
             "type: {{TYPE}}",
             "index: logstash-*",
             "spike_height: {{EVENTS}}",
@@ -42,7 +42,7 @@
         "statusCode_frequency": [
             "es_host: {{ESHOST}}",
             "es_port: {{ESPORT}}",
-            "name: {{ACCOUNTID}}_{{DOMAINID}}_{{TIMESTAMP}}",
+            "name: {{CONFIGID}}_{{ACCOUNTID}}_{{DOMAINID}}",
             "type: {{TYPE}}",
             "index: logstash-*",
             "num_events: {{EVENTS}}",

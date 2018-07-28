@@ -58,7 +58,7 @@ class Rule {
       target_type: ruleData.target_type,
       rule_config: ruleData.rule_config,
       target: ruleData.target,
-    }); 
+    });
 
     switch (rule.rule_type) {
       case 'spike':
@@ -70,6 +70,7 @@ class Rule {
     }
   }
   generateSpikeRule() {
+    const nowTime = Date.now();
     return new Promise((resolve, reject) => {
         if (this.rule_type !== 'spike') {
           return reject('Rule type is wrong');
@@ -81,7 +82,7 @@ class Rule {
         ruleFile = ruleFile.replace(/{{DOMAIN_NAME}}/g, this.target);
         ruleFile = ruleFile.replace(/{{ESHOST}}/g, config.ElasticSearch.ESHost);
         ruleFile = ruleFile.replace(/{{ESPORT}}/g, config.ElasticSearch.ESPort);
-        ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, Date.now());
+        ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, nowTime);
         ruleFile = ruleFile.replace(/{{TYPE}}/g, this.rule_type);
         ruleFile = ruleFile.replace(/{{DIRECTION}}/g, this.rule_config.spike_direction);
         ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.spike_amount);
@@ -96,8 +97,8 @@ class Rule {
           fs.writeFile('./' + rulesDir +
             this.config_id +
             '_' + this.account_id +
-            '_' + Date.now() + '.yaml', ruleFile,
-            function (err) {
+            '_' + nowTime + '.yaml', ruleFile,
+            function(err) {
               if (err) {
                 return reject(err);
               }
@@ -109,6 +110,7 @@ class Rule {
   }
 
   generateStatusCodeFrequency() {
+    const nowTime = Date.now();
     return new Promise((resolve, reject) => {
         if (this.rule_type !== 'statuscode_frequency') {
           return reject('Rule type is wrong');
@@ -121,7 +123,7 @@ class Rule {
         ruleFile = ruleFile.replace(/{{DOMAIN_NAME}}/g, this.target);
         ruleFile = ruleFile.replace(/{{ESHOST}}/g, config.ElasticSearch.ESHost);
         ruleFile = ruleFile.replace(/{{ESPORT}}/g, config.ElasticSearch.ESPort);
-        ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, Date.now());
+        ruleFile = ruleFile.replace(/{{TIMESTAMP}}/g, nowTime);
         ruleFile = ruleFile.replace(/{{TYPE}}/g, 'frequency');
         ruleFile = ruleFile.replace(/{{EVENTS}}/g, this.rule_config.responses);
         ruleFile = ruleFile.replace(/{{TIMEFRAME}}/g, this.rule_config.timeframe);
@@ -136,12 +138,12 @@ class Rule {
           fs.writeFile('./' + rulesDir +
             this.config_id +
             '_' + this.account_id +
-            '_' + Date.now() + '.yaml', ruleFile,
-            function (err) {
+            '_' + nowTime + '.yaml', ruleFile,
+            function(err) {
               if (err) {
                 return reject(err);
               }
-              
+
               return resolve(true);
             });
         });
