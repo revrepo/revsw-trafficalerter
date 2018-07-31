@@ -1,0 +1,20 @@
+{
+    "mongodb_url": "mongodb://IAD02-CMDB01.REVSW.NET:27017/trafficalerts?replicaSet=CMDB-rs0",
+    "api_mongodb_url": "mongodb://IAD02-CMDB01.REVSW.NET:27017/revportal?replicaSet=CMDB-rs0",
+    "ElasticSearch": {
+        "ESHost": "iad02-es12.revsw.net",
+        "ESPort": "9200"
+    },
+    "API": {
+        "host": "127.0.0.1",
+        "port": "443",
+        "token": "9ff71a58943396c3491bd7f65303407bcb8c2068f66ee584fabc04c17bfce97d"
+    },
+    "service": {
+        "host": "0.0.0.0",
+        "port": 7443,
+        "http_port": 7000,
+        "key_path": "/opt/revsw-api/config/ssl_certs/server.key",
+        "cert_path": "/opt/revsw-api/config/ssl_certs/server.crt"
+    }
+}
