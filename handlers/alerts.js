@@ -76,7 +76,7 @@ const Alerts = {
                         // Tell the API to send the notifications...
 
                         if (!conf.silenced) {
-                            const createdAt = moment.utc().format();
+                            const createdAt = moment.utc().format('YYYY-MM-DD HH:mm:ss z');
                             let numHits = request.payload.num_hits;
                             let notificationContent = `
                             A new traffic alert was triggered for ${conf.target_type}: 
